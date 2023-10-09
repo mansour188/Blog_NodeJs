@@ -1,7 +1,6 @@
 const  mongoose=require("mongoose")
 require("dotenv").config();
-console.log(process.env.DB_USERNAME)
-console.log(process.env.DB_PASSWORD)
+
 
 
 
