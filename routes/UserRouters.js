@@ -35,7 +35,7 @@ router.post("/login", async (req,res)=>{
 
         user.status='online'
 
-        
+          console.log(user)
     
 
         res.status(200).json(user)

@@ -25,6 +25,8 @@ app.get('/rooms',(req,res)=>{
     res.json(rooms)
 
 })
+
+
 async function getLastMessagesFromRoom(room){
     let roomMessages=await Message.aggregate(
       [
@@ -73,6 +75,26 @@ socket.on('message-room',async(room,content,sender,time,date)=>{
     io.to(room).emit('room-messages',roomMessages)
     socket.broadcast.emit('notifications',room)
 
+})
+
+app.delete('/logout',async (req,res)=>{
+    console.log("logout")
+    try{
+        const {_id,newMessage}=req.body
+        const user =await User.findById(_id)
+        user.status="offline"
+        user.newMessage=newMessage;
+        await user.save()
+        const members=await User.find()
+        socket.broadcast.emit('new-user',members)
+        res.status(200).send();
+
+
+    }catch(e){
+        console.log(e)
+        res.status(400).send()
+
+    }
 })
 
 })
